@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarkarijoblist | Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        .admin-container {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .admin-card {
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: white;
+            font-family: inherit;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .job-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .btn-danger {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        /* Admin Login Overlay */
+        #admin-login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="canvas-container"></div>
+
+    <!-- Admin Login Overlay -->
+    <div id="admin-login-overlay">
+        <div class="login-card glass">
+            <div class="logo" style="margin-bottom: 2rem;">SARKARIJOBLIST ADMIN</div>
+            <h2 style="margin-bottom: 1rem;">Restricted Access</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Please sign in to access Mission Control.</p>
+
+            <form id="admin-login-form">
+                <div class="form-group" style="text-align: left;">
+                    <label>Email Address</label>
+                    <input type="email" id="admin-email" required placeholder="admin@jobluster.com">
+                </div>
+                <div class="form-group" style="text-align: left;">
+                    <label>Password</label>
+                    <input type="password" id="admin-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Enter Mission
+                    Control</button>
+            </form>
+            <p id="login-error" style="color: #ff4757; margin-top: 1rem; font-size: 0.9rem; display: none;">Invalid
+                credentials. Please try again.</p>
+        </div>
+    </div>
+
+    <div class="app">
+        <nav>
+            <div class="logo">SARKARIJOBLIST ADMIN</div>
+            <ul class="nav-links">
+                <li>
+                    <button id="theme-toggle" class="btn-secondary"
+                        style="padding: 0.6rem; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                        </svg>
+                    </button>
+                </li>
+                <li><a href="index.html">View Site</a></li>
+                <li><button id="admin-logout" class="btn-secondary"
+                        style="padding: 0.5rem 1rem; font-size: 0.8rem;">Logout</button></li>
+            </ul>
+        </nav>
+
+        <div class="admin-container">
+            <div class="header-actions">
+                <h1>Mission Control</h1>
+                <p style="color: var(--text-muted)">Manage the future of careers.</p>
+            </div>
+
+            <div class="admin-grid">
+                <!-- Add Job Section -->
+                <div class="admin-card glass">
+                    <h2 style="margin-bottom: 2rem;">Post New Position</h2>
+                    <form id="add-job-form">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label>Job Title</label>
+                                <input type="text" id="title" required placeholder="e.g. Senior 3D Designer">
+                            </div>
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" id="company" required placeholder="e.g. Acme Corp">
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label>Location</label>
+                                <input type="text" id="location" required placeholder="e.g. Remote">
+                            </div>
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select id="type">
+                                    <option value="Full-time">Full-time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Part-time">Part-time</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Salary Range</label>
+                                <input type="text" id="salary" required placeholder="e.g. $100k - $120k">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Tags (comma separated)</label>
+                            <input type="text" id="tags" placeholder="e.g. React, Three.js, WebGL">
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">Deploy Position</button>
+                    </form>
+                </div>
+
+                <!-- Job Management Section -->
+                <div class="admin-card glass">
+                    <h2 style="margin-bottom: 2rem;">Active Listings</h2>
+                    <div id="admin-job-list">
+                        <!-- Jobs will be listed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="admin.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarkarijoblist | Future of Job Search</title>
+    <meta name="description" content="Discover your next career move in the 3D workspace. Sarkarijoblist connects top talent with innovative companies.">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <div class="app">
+        <nav>
+            <div class="logo">SARKARIJOBLIST</div>
+            <ul class="nav-links">
+                <li><a href="#jobs">Find Jobs</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="#">Companies</a></li>
+                <li><a href="#">Salaries</a></li>
+            </ul>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button id="theme-toggle" class="btn-secondary" style="padding: 0.6rem; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                    <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+                <button class="btn-secondary" id="login-btn">Login</button>
+                <button class="btn-primary">Post a Job</button>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <h1 id="hero-title">Elevate Your<br>Career Path</h1>
+            <p id="hero-subtitle">The first 3D-integrated job portal for the modern digital era. Find opportunities that match your ambition.</p>
+            
+            <div class="search-container glass">
+                <input type="text" placeholder="Job title, keywords, or company...">
+                <input type="text" placeholder="Location">
+                <button class="btn-primary">Search Jobs</button>
+            </div>
+        </section>
+
+        <section id="jobs" class="jobs-section">
+            <div class="section-header">
+                <h2>Featured Opportunities</h2>
+                <p style="color: var(--text-muted)">Handpicked roles for top-tier professionals.</p>
+            </div>
+            <div class="job-grid" id="job-grid">
+                <!-- Jobs will be injected here -->
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-logo logo">SARKARIJOBLIST</div>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">&copy; 2026 Sarkarijoblist Inc. All rights reserved.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Privacy</a>
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Terms</a>
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Twitter</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-content glass">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <h2>Welcome Back</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Choose your preferred login method to continue.</p>
+            
+            <div class="social-login-grid">
+                <button class="social-btn google" id="google-login">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12.48 10.92v3.28h7.84c-.24 1.84-.92 3.32-2.12 4.52-1.2 1.2-2.84 2.12-5.72 2.12-4.52 0-8.16-3.64-8.16-8.16s3.64-8.16 8.16-8.16c2.48 0 4.28.96 5.6 2.24l2.32-2.32C18.44 2.4 15.8 1 12.48 1 6.96 1 2.52 5.44 2.52 10.96s4.44 9.96 9.96 9.96c3.16 0 5.6-1.04 7.6-3.12 2.04-2.04 2.68-4.92 2.68-7.36 0-.48-.04-.96-.12-1.44H12.48z"/></svg>
+                    Continue with Google
+                </button>
+                
+                <button class="social-btn facebook" id="facebook-login">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9V12h2.54V9.41c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.34 21.12 22 16.99 22 12z"/></svg>
+                    Continue with Facebook
+                </button>
+                
+                <button class="social-btn linkedin" id="linkedin-login">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a2.7 2.7 0 0 0-2.7-2.7c-1.2 0-2.2.8-2.5 1.9v-1.6h-2.5v7.7h2.5v-4.1c0-.7.6-1.2 1.3-1.2s1.2.5 1.2 1.2v4.1h2.7M6.5 8.4c.8 0 1.5-.7 1.5-1.5s-.7-1.5-1.5-1.5-1.5.7-1.5 1.5.7 1.5 1.5 1.5m1.3 10.1V10.8H5.2v7.7h2.6z"/></svg>
+                    Continue with LinkedIn
+                </button>
+            </div>
+
+            <div class="modal-footer">
+                <p>New to Jobluster? <a href="#">Create an account</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { jobs } from './data.js';
+        import './main.js';
+
+        // Render Jobs
+        const jobGrid = document.getElementById('job-grid');
+        jobs.forEach(job => {
+            const card = document.createElement('div');
+            card.className = 'job-card glass';
+            card.innerHTML = `
+                <div class="company">${job.company}</div>
+                <h3>${job.title}</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted)">${job.location} • ${job.type}</span>
+                    <span style="font-weight: 600; color: var(--secondary)">${job.salary}</span>
+                </div>
+                <div class="job-tags">
+                    ${job.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+            `;
+            jobGrid.appendChild(card);
+        });
+
+        // Animations
+        gsap.from('#hero-title', {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: 'power4.out',
+            delay: 0.2
+        });
+
+        gsap.from('#hero-subtitle', {
+            y: 30,
+            opacity: 0,
+            duration: 1,
+            ease: 'power4.out',
+            delay: 0.4
+        });
+
+        gsap.from('.search-container', {
+            scale: 0.9,
+            opacity: 0,
+            duration: 1,
+            ease: 'back.out(1.7)',
+            delay: 0.6
+        });
+
+        gsap.from('.job-card', {
+            y: 100,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            scrollTrigger: {
+                trigger: '#jobs',
+                start: 'top 80%'
+            }
+        });
+    </script>
+</body>
+</html>
